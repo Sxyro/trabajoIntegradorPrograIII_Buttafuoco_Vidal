@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/bamboo.css"
+      type="text/css"
+    />
+    <title>Modificar</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <ul>
+          <a href="index.html"><li>Ver</li></a>
+          <a href="consultar.html"><li>Consultar id</li></a>
+          <a href="crear.html"><li>Crear</li></a>
+          <a href="modificar.html"><li>Modificar</li></a>
+          <a href="eliminar.html"><li>Eliminar</li></a>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+    <form id="getProduct_form">
+      <input type="number" name="idProd" placeholder="Ingresá un ID" required>
+      <button type="submit">Buscar</button>
+    </form>
+
+      <ul id="listaProductos"></ul>
+
+      <div id="contenedor_update"></div>
+    </main>
+
+    <script>
+      let url = "http://localhost:3000/api/productos";
+
+      getProduct_form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        console.log("Formulario no enviado");
+        console.log(event.target); 
+
+        let formData = new FormData(event.target);
+        console.log(formData);
+
+        let data = Object.fromEntries(formData.entries());
+        console.log(data);
+
+        let idProd = data.idProd;
+        console.log(idProd);
+
+        console.log(
+          `Extraido valor numerico del formulario en la variable idProd, que vale ${idProd}`
+        );
+
+        try {
+          console.log(`Haciendo peticion GET a la url: ${url}/${idProd}`);
+
+          let respuesta = await fetch(
+            `http://localhost:3000/api/productos/${idProd}`
+          );
+
+          let datos = await respuesta.json();
+
+          let producto = datos.payload[0];
+
+          mostrarProducto(producto);
+        } catch (error) {
+          console.log(error);
+        }
+      });
+
+
+      function mostrarProducto(producto) {
+        console.table(producto);
+
+        let htmlProducto = `
+        <li class="li-listados">
+            <img src="${producto.imagen}" alt="${producto.nombre}">
+            <p>Id: ${producto.id} / Nombre: ${producto.nombre} / <strong>Precio: ${producto.precio}</strong></p>
+        </li>
+        <li class="li-botonera">
+            <input type="button" id="updateProduct_button" value="Actualizar producto">
+        </li>`;
+
+        listaProductos.innerHTML = htmlProducto;
+
+        let updateProduct_button = document.getElementById(
+          "updateProduct_button"
+        );
+
+        updateProduct_button.addEventListener("click", (event) => {
+          formularioPutProducto(event, producto);
+        });
+      }
+
+      function formularioPutProducto(event, producto) {
+        event.stopPropagation();
+
+        let updateForm_html = `
+            <form id="updateProducts-form">
+
+                <input type="hidden" name="id" id="idProd" value="${producto.id}">
+
+                <label for="nameProd">Nombre</label>
+                <input type="text" name="name" id="nameProd" value="${producto.nombre}" required>
+
+                <label for="imageProd">Url imagen</label>
+                <input type="text" name="image" id="imageProd" value="${producto.imagen}" required>
+
+                <label for="typeProd">Categoria</label>
+                <select name="category" id="typeProd" required>
+                    <option value="impresora">Impresora</option>
+                    <option value="cartucho">Cartucho</option>
+                </select>
+
+                <label for="priceProd">Precio</label>
+                <input type="number" name="price" id="priceProd" value="${producto.precio}" required>
+
+                <label for="activeProd">Disponibilidad</label>
+                <select name="active" id="activeProd" required>
+                    <option value="0">Sin Stock</option>
+                    <option value="1">En Stock</option>
+                </select>
+
+                <br>
+                <input type="submit" value="Actualizar producto">
+            </form>
+    `;
+
+        contenedor_update.innerHTML = updateForm_html;
+
+        let updateProducts_form = document.getElementById(
+          "updateProducts-form"
+        );
+
+        updateProducts_form.addEventListener("submit", async (event) => {
+          event.preventDefault();
+
+          let formData = new FormData(event.target);
+
+          let data = Object.fromEntries(formData.entries());
+
+          try {
+            let response = await fetch(url, {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(data),
+            });
+
+            let result = await response.json();
+
+            if (response.ok) {
+              console.log(result.message);
+              alert(result.message);
+
+              listaProductos.innerHTML = "";
+              contenedor_update.innerHTML = "";
+            } else {
+              console.error("Error: ", result.message);
+              alert(result.message);
+            }
+          } catch (error) {
+            
+            console.error("Error al enviar los datos: ", error);
+            alert("Error al procesar la solicitud");
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

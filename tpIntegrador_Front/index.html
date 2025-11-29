@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/bamboo.css"
+      type="text/css"
+    />
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <ul>
+          <a href="index.html">
+            <li>Ver</li>
+          </a>
+          <a href="consultar.html">
+            <li>Consultar id</li>
+          </a>
+          <a href="crear.html">
+            <li>Crear</li>
+          </a>
+          <a href="modificar.html">
+            <li>Modificar</li>
+          </a>
+          <a href="eliminar.html">
+            <li>Eliminar</li>
+          </a>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <h1>Lista de productos</h1>
+      <hr />
+      <div id="contenedor-productos"></div>
+    </main>
+
+    <script>
+      const url = "http://localhost:3000/api/productos";
+
+      let contenedorProductos = document.querySelector("#contenedor-productos");
+
+      async function obtenerProductos() {
+        try {
+          const respuesta = await fetch(url);
+          const data = await respuesta.json();
+          mostrarProductos(data.payload);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+      function mostrarProductos(array) {
+        let html = "";
+
+        array.forEach((producto) => {
+          html += `
+            <div class="card-producto">
+                <img src="${producto.imagen}" alt="${producto.nombre}">
+                <h5>${producto.nombre}</h5>
+                <p>Id: ${producto.id}</p>
+                <p>$${producto.precio}</p>
+            </div>
+        `;
+        });
+
+        contenedorProductos.innerHTML = html;
+      }
+
+      obtenerProductos();
+    </script>
+  </body>
+</html>

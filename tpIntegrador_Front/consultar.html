@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://unpkg.com/bamboo.css" />
+  <title>ConsultarPorID</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body>
+  <header>
+    <nav>
+      <ul>
+        <a href="index.html"><li>Ver</li></a>
+        <a href="consultar.html"><li>Consultar id</li></a>
+        <a href="crear.html"><li>Crear</li></a>
+        <a href="modificar.html"><li>Modificar</li></a>
+        <a href="eliminar.html"><li>Eliminar</li></a>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Consultar producto por ID</h1>
+    <hr />
+
+    <form id="getProduct_form">
+      <input type="number" name="idProd" placeholder="Ingresá un ID" required>
+      <button type="submit">Buscar</button>
+    </form>
+
+    <ul id="listaProductos"></ul>
+  </main>
+
+  <script>
+    const url = "http://localhost:3000/api/productos";
+
+    const getProduct_form = document.querySelector("#getProduct_form");
+    const listaProductos = document.querySelector("#listaProductos");
+
+    getProduct_form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      let formData = new FormData(event.target);
+      let data = Object.fromEntries(formData.entries());
+      let idProd = data.idProd;
+
+      try {
+        let respuesta = await fetch(`${url}/${idProd}`);
+        let datos = await respuesta.json();
+
+        if (respuesta.ok) {
+          let producto = datos.payload[0];
+          mostrarProducto(producto);
+        } else {
+          mostrarError(datos.message);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    });
+
+    function mostrarProducto(producto) {
+      let html = `
+        <li class="li-listados">
+          <img src="${producto.imagen}" alt="${producto.nombre}">
+          <p>ID: ${producto.id} / Nombre: ${producto.nombre} / <strong>Precio: $${producto.precio}</strong></p>
+        </li>
+      `;
+
+      listaProductos.innerHTML = html;
+    }
+
+    function mostrarError(error) {
+      let html = `
+        <li class="mensaje-error">
+          <p><strong>Error:</strong> ${error}</p>
+        </li>
+      `;
+      listaProductos.innerHTML = html;
+    }
+  </script>
+
+</body>
+</html>

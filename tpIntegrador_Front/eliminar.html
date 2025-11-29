@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/bamboo.css"
+      type="text/css"
+    />
+    <title>Modificar</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <ul>
+          <a href="index.html"><li>Ver</li></a>
+          <a href="consultar.html"><li>Consultar id</li></a>
+          <a href="crear.html"><li>Crear</li></a>
+          <a href="modificar.html"><li>Modificar</li></a>
+          <a href="eliminar.html"><li>Eliminar</li></a>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <form id="getProduct_form">
+        <input
+          type="number"
+          name="idProd"
+          placeholder="Ingresá un ID"
+          required
+        />
+        <button type="submit">Buscar</button>
+      </form>
+
+      <ul id="listaProductos"></ul>
+
+      <div id="contenedor_update"></div>
+    </main>
+    <script>
+      let url = "http://localhost:3000/api/productos";
+
+      getProduct_form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        let formData = new FormData(event.target);
+
+        let data = Object.fromEntries(formData.entries());
+
+        let idProd = data.idProd;
+
+        try {
+          console.log(`Haciendo peticion GET a la url: ${url}/${idProd}`);
+          let respuesta = await fetch(
+            `http://localhost:3000/api/productos/${idProd}`
+          );
+
+          let datos = await respuesta.json();
+
+          let producto = datos.payload[0];
+          console.table(producto);
+
+          let htmlProducto = `
+            <li class="li-listados">
+                <img src="${producto.imagen}" alt="${producto.nombre}">
+                <p>Id: ${producto.id} / Nombre: ${producto.nombre} / <strong>Precio: ${producto.precio}</strong></p>
+            </li>
+            <li class="li-botonera">
+                <input type="button" id="deleteProduct_button" value="Eliminar producto">
+            </li>
+        `;
+
+          listaProductos.innerHTML = htmlProducto;
+
+          let deleteProduct_button = document.getElementById(
+            "deleteProduct_button"
+          );
+
+          deleteProduct_button.addEventListener("click", (event) => {
+            event.stopPropagation();
+
+            let confirmacion = confirm("Queres eliminar este producto?");
+
+            if (!confirmacion) {
+              alert("Eliminacion cancelada");
+            } else {
+              eliminarProducto(idProd);
+            }
+          });
+
+          async function eliminarProducto(id) {
+            console.log(id); 
+
+            try {
+              let response = await fetch(
+                `http://localhost:3000/api/productos/${id}`,
+                {
+                  method: "DELETE",
+                }
+              );
+
+              let result = await response.json();
+
+              if (response.ok) {
+                alert(result.message);
+
+                listaProductos.innerHTML = "";
+              }
+            } catch (error) {
+              console.error("Error en la solicitud DELETE: ", error);
+              alert("Ocurrio un error al eliminar un producto");
+            }
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      });
+    </script>
+  </body>
+</html>
