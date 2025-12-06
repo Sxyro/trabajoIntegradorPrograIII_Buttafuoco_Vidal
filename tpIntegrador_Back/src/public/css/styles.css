@@ -1,0 +1,247 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #333;
+}
+
+.nav-tienda {
+    width: 100%;
+    background-color: #1565C0;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 15px;
+    gap: 10px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.nav-left,
+.nav-center,
+.nav-right {
+    display: flex;
+    align-items: center;
+}
+
+.nav-left {
+    gap: 10px;
+    min-width: 180px;
+}
+
+.logo-tienda {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.titulo-tienda {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.nav-center {
+    flex: 1;
+    justify-content: center;
+}
+
+.nav-center .search-bar {
+    width: 280px;
+    max-width: 90%;
+}
+
+.nav-right {
+    min-width: 120px;
+    justify-content: flex-end;
+}
+
+.usuario-label {
+    font-size: 16px;
+    background: #0D47A1;
+    padding: 6px 12px;
+    border-radius: 10px;
+    color: white;
+}
+
+
+header nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 12px 20px;
+    background-color: #1565C0;
+    display: flex;
+    gap: 25px;
+}
+
+header nav ul li {
+    color: white;
+    font-weight: bold;
+}
+
+header nav ul a {
+    text-decoration: none;
+    color: white;
+}
+
+
+h1 {
+    color: #0D47A1;
+    font-size: 28px;
+}
+
+.vistas-usuario,
+.vistas-cliente {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 30px 20px;
+}
+
+.products-form,
+.products-form-amplio {
+    background-color: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+    margin-bottom: 35px;
+}
+
+.products-form label,
+.products-form-amplio label {
+    font-weight: bold;
+    color: #0D47A1;
+}
+
+.products-form input,
+.products-form-amplio input,
+.products-form-amplio select {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+.products-form button,
+.products-form-amplio button {
+    background-color: #1565C0;
+    color: white;
+    border: none;
+    padding: 14px;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.products-form button:hover,
+.products-form-amplio button:hover {
+    background-color: #0D47A1;
+}
+
+.li-listados {
+    background-color: white;
+    padding: 18px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.li-listados img {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 25px;
+}
+
+.card-producto {
+    background: #fff;
+    border-radius: 12px;
+    padding: 18px;
+    text-align: center;
+    border: 2px solid #1565C0;
+    box-shadow: 0px 0px 8px rgba(0,0,0,0.12);
+    transition: transform 0.2s ease;
+}
+
+.card-producto:hover {
+    transform: scale(1.03);
+}
+
+.card-producto img {
+    width: 100%;
+    height: 180px;
+    object-fit: contain;
+}
+
+.btn-carrito {
+    width: 100%;
+    padding: 10px;
+    background-color: #2d84db;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-carrito:hover {
+    background-color: #2876aa;
+}
+
+.carrito-panel {
+    margin-top: 40px;
+    padding: 20px;
+    background: white;
+    border: 2px solid #1565C0;
+    border-radius: 10px;
+    box-shadow: 0px 0px 8px rgba(0,0,0,0.12);
+}
+
+.btn-borrar {
+    background: #D32F2F;
+    padding: 5px 8px;
+    border-radius: 6px;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-vaciar {
+    width: 100%;
+    background-color: #0D47A1;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn-vaciar:hover {
+    background-color: #09316E;
+}
+
+.consulta-contenedor {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 25px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+}
+
+.consulta-img {
+    width: 180px;
+    height: 180px;
+    object-fit: contain;
+    border-radius: 10px;
+    border: 2px solid #1565C0;
+}

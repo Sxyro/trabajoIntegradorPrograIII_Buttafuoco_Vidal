@@ -1,0 +1,37 @@
+<%- include("partials/head.ejs") %>
+<%- include("partials/nav.ejs") %>
+
+<main class="vistas-usuario">
+    <h1> <%= about %> </h1>
+
+    <form id="altaProducts-form" class="products-form-amplio">
+
+        <label for="nameProd">Nombre</label>
+        <input type="text" name="name" id="nameProd" required>
+        <br>
+
+        <label for="imageProd">Imagen</label>
+        <input type="text" name="image" id="imageProd" required>
+        <br>
+
+        <label for="categoryProd">Categoria</label>
+        <select name="category" id="categoryProd" required>
+            <option value="impresora">Impresora</option>
+            <option value="cartucho">Cartucho</option>
+        </select>
+        <br>
+
+        <label for="priceProd">Precio</label>
+        <input type="number" name="price" id="priceProd" required>
+        <br>
+
+        <input type="submit" value="Crear producto">
+    </form>
+
+    <hr>
+    <div id="contenedor-productos"></div>
+</main>
+
+<script src="/js/crear.js"></script>
+
+<%- include("partials/footer.ejs") %>

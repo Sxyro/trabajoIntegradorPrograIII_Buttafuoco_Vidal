@@ -1,0 +1,38 @@
+<%- include("partials/head.ejs") %>
+<%- include("partials/nav-tienda.ejs") %>
+
+<main class="vistas-cliente">
+
+    <h1><%= about %></h1>
+
+    <div id="grid-productos" class="product-grid">
+        <% products.forEach(prod => { %>
+            <div class="card-producto">
+                <img src="<%= prod.imagen %>" alt="<%= prod.nombre %>">
+                <h5><%= prod.nombre %></h5>
+                <p>$<%= prod.precio %></p>
+
+                <button class="btn-carrito"
+                    data-prod='<%- JSON.stringify({ 
+                        id: prod.id,
+                        name: prod.nombre,
+                        image: prod.imagen,
+                        price: prod.precio
+                    }) %>'>
+                    Agregar al carrito
+                </button>
+            </div>
+        <% }) %>
+    </div>
+
+    <aside id="carrito" class="carrito-panel">
+        <h2>Carrito (<span id="cart-count">0</span>)</h2>
+        <ul id="carrito-lista"></ul>
+        <h3>Total: $<span id="cart-total">0</span></h3>
+        <button id="vaciar-carrito" class="btn-vaciar">Vaciar carrito</button>
+    </aside>
+
+</main>
+
+<script src="/js/productos.js"></script>
+<%- include("partials/footer.ejs") %>
